@@ -1,59 +1,128 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🚀 Tiny Laravel Editor (TinyMCE + Laravel CRUD)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A simple Laravel project that integrates TinyMCE rich text editor to create, edit, view, and delete articles with HTML content support.
 
-## About Laravel
+📌 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Laravel CRUD (Create, Read, Update, Delete)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+TinyMCE Rich Text Editor
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Image Upload inside the editor
 
-## Learning Laravel
+Clean Bootstrap UI
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+MySQL database support
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+🛠️ Tech Stack
 
-## Laravel Sponsors
+Backend: Laravel
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Database: MySQL
 
-### Premium Partners
+Frontend: Blade + Bootstrap 5
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Editor: TinyMCE
 
-## Contributing
+📥 Installation Guide
+Step 1 – Clone the Project
+git clone https://github.com/your-username/tiny-laravel-editor.git
+cd tiny-laravel-editor
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Step 2 – Install Dependencies
+composer install
 
-## Code of Conduct
+Step 3 – Create .env File
+cp .env.example .env
+php artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+Update database settings in .env:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tiny_editor
+DB_USERNAME=root
+DB_PASSWORD=
 
-## License
+Step 4 – Run Migrations
+php artisan migrate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+🧱 Database Structure
+
+articles table structure:
+
+Column	Type
+id	bigint
+title	string
+content	text
+timestamps	-
+⚙️ TinyMCE Setup
+
+You can use TinyMCE CDN without API key:
+
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
+
+
+TinyMCE Initialization:
+
+tinymce.init({
+    selector: '#content',
+    height: 400,
+    plugins: 'link image lists',
+    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+});
+
+📸 Image Upload Support
+
+Add Route in routes/web.php:
+
+Route::post('/upload-image', function() {
+    if (request()->hasFile('file')) {
+        $file = request()->file('file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('uploads'), $filename);
+
+        return response()->json([
+            'location' => url('uploads/' . $filename)
+        ]);
+    }
+
+    return response()->json(['error' => 'No file uploaded'], 400);
+})->name('upload.image');
+
+
+Create directory:
+
+mkdir public/uploads
+
+🧭 Project Routes
+Route::get('/', function () {
+    return redirect()->route('articles.index');
+});
+
+Route::resource('articles', ArticleController::class);
+
+▶️ Run the Project
+php artisan serve
+
+
+Open in browser:
+
+http://localhost:8000/articles
+
+📁 Project Structure
+tiny-laravel-editor/
+│
+├── app/
+├── database/
+├── resources/
+│   └── views/
+│       └── articles/
+├── routes/
+└── public/uploads
+
+🖼️ Screenshots
+<img width="1729" height="587" alt="image" src="https://github.com/user-attachments/assets/2f2d3b3a-e4b1-489b-8eb9-e036420c4ab5" />
+<img width="1718" height="950" alt="image" src="https://github.com/user-attachments/assets/3869a6f4-d016-4043-95bd-ad338165e90c" />
