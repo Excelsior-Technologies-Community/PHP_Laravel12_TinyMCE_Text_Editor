@@ -1,20 +1,20 @@
-# ✏️ tiny-laravel12-editor
+# PHP_Laravel12_TinyMCE_Text_Editor
 
 A simple **Laravel + TinyMCE** based Article Management System that allows you to **create, edit, view, and delete articles** with rich HTML content support.
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ Full Laravel CRUD (Create, Read, Update, Delete)  
-✅ TinyMCE Rich Text Editor  
-✅ Image Upload inside the editor  
-✅ Clean & Responsive Bootstrap 5 UI  
-✅ MySQL Database support  
+ Full Laravel CRUD (Create, Read, Update, Delete)  
+ TinyMCE Rich Text Editor  
+ Image Upload inside the editor  
+ Clean & Responsive Bootstrap 5 UI  
+ MySQL Database support  
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend:** Laravel  
 - **Database:** MySQL  
@@ -23,21 +23,22 @@ A simple **Laravel + TinyMCE** based Article Management System that allows you t
 
 ---
 
-🖼️ Screenshots
+# Screenshots
 <img width="1729" height="587" alt="Article List" src="https://github.com/user-attachments/assets/2f2d3b3a-e4b1-489b-8eb9-e036420c4ab5" /> 
 
 <img width="1718" height="950" alt="TinyMCE Editor" src="https://github.com/user-attachments/assets/3869a6f4-d016-4043-95bd-ad338165e90c" />
 
-## 📥 Installation Guide
+## Installation Guide
 
-### 1️⃣ Clone the Project
+###  Clone the Project
 ```bash
 git clone https://github.com/your-username/tiny-laravel-editor.git
 cd tiny-laravel-editor
-2️⃣ Install Dependencies
+
+Install Dependencies
 composer install
 
-3️⃣ Create .env File
+Create .env File
 cp .env.example .env
 php artisan key:generate
 
@@ -51,10 +52,11 @@ DB_DATABASE=tiny_editor
 DB_USERNAME=root
 DB_PASSWORD=
 
-4️⃣ Run Migrations
+Run Migrations
+
 php artisan migrate
 
-🧱 Database Structure
+Database Structure
 
 articles table:
 
@@ -64,7 +66,8 @@ title	string
 content	text
 created_at	timestamp
 updated_at	timestamp
-⚙️ TinyMCE Integration
+
+TinyMCE Integration
 
 Add TinyMCE CDN inside your Blade file:
 
@@ -80,7 +83,7 @@ tinymce.init({
     toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
 });
 
-📸 Image Upload Support
+Image Upload Support
 
 Add this route in routes/web.php:
 
@@ -103,14 +106,15 @@ Create upload directory:
 
 mkdir public/uploads
 
-🧭 Project Routes
+Project Routes
 Route::get('/', function () {
     return redirect()->route('articles.index');
 });
 
 Route::resource('articles', ArticleController::class);
 
-▶️ Run the Project
+Run the Project
+
 php artisan serve
 
 
@@ -118,7 +122,8 @@ Open in browser:
 
 http://localhost:8000/articles
 
-📁 Project Structure
+Project Structure
+
 tiny-laravel-editor/
 │
 ├── app/
