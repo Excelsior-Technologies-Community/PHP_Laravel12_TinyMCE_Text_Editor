@@ -1,43 +1,48 @@
-🚀 Tiny Laravel Editor (TinyMCE + Laravel CRUD)
+# ✏️ tiny-laravel12-editor
 
-A simple Laravel project that integrates TinyMCE rich text editor to create, edit, view, and delete articles with HTML content support.
+A simple **Laravel + TinyMCE** based Article Management System that allows you to **create, edit, view, and delete articles** with rich HTML content support.
 
-📌 Features
+---
 
-Laravel CRUD (Create, Read, Update, Delete)
+## 🚀 Features
 
-TinyMCE Rich Text Editor
+✅ Full Laravel CRUD (Create, Read, Update, Delete)  
+✅ TinyMCE Rich Text Editor  
+✅ Image Upload inside the editor  
+✅ Clean & Responsive Bootstrap 5 UI  
+✅ MySQL Database support  
 
-Image Upload inside the editor
+---
 
-Clean Bootstrap UI
+## 🛠️ Tech Stack
 
-MySQL database support
+- **Backend:** Laravel  
+- **Database:** MySQL  
+- **Frontend:** Blade + Bootstrap 5  
+- **Editor:** TinyMCE  
 
-🛠️ Tech Stack
+---
 
-Backend: Laravel
+🖼️ Screenshots
+<img width="1729" height="587" alt="Article List" src="https://github.com/user-attachments/assets/2f2d3b3a-e4b1-489b-8eb9-e036420c4ab5" /> 
 
-Database: MySQL
+<img width="1718" height="950" alt="TinyMCE Editor" src="https://github.com/user-attachments/assets/3869a6f4-d016-4043-95bd-ad338165e90c" />
 
-Frontend: Blade + Bootstrap 5
+## 📥 Installation Guide
 
-Editor: TinyMCE
-
-📥 Installation Guide
-Step 1 – Clone the Project
+### 1️⃣ Clone the Project
+```bash
 git clone https://github.com/your-username/tiny-laravel-editor.git
 cd tiny-laravel-editor
-
-Step 2 – Install Dependencies
+2️⃣ Install Dependencies
 composer install
 
-Step 3 – Create .env File
+3️⃣ Create .env File
 cp .env.example .env
 php artisan key:generate
 
 
-Update database settings in .env:
+Update your database configuration inside .env:
 
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -46,26 +51,27 @@ DB_DATABASE=tiny_editor
 DB_USERNAME=root
 DB_PASSWORD=
 
-Step 4 – Run Migrations
+4️⃣ Run Migrations
 php artisan migrate
 
 🧱 Database Structure
 
-articles table structure:
+articles table:
 
 Column	Type
 id	bigint
 title	string
 content	text
-timestamps	-
-⚙️ TinyMCE Setup
+created_at	timestamp
+updated_at	timestamp
+⚙️ TinyMCE Integration
 
-You can use TinyMCE CDN without API key:
+Add TinyMCE CDN inside your Blade file:
 
 <script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
 
 
-TinyMCE Initialization:
+Initialize TinyMCE:
 
 tinymce.init({
     selector: '#content',
@@ -76,7 +82,7 @@ tinymce.init({
 
 📸 Image Upload Support
 
-Add Route in routes/web.php:
+Add this route in routes/web.php:
 
 Route::post('/upload-image', function() {
     if (request()->hasFile('file')) {
@@ -93,7 +99,7 @@ Route::post('/upload-image', function() {
 })->name('upload.image');
 
 
-Create directory:
+Create upload directory:
 
 mkdir public/uploads
 
@@ -121,8 +127,4 @@ tiny-laravel-editor/
 │   └── views/
 │       └── articles/
 ├── routes/
-└── public/uploads
-
-🖼️ Screenshots
-<img width="1729" height="587" alt="image" src="https://github.com/user-attachments/assets/2f2d3b3a-e4b1-489b-8eb9-e036420c4ab5" />
-<img width="1718" height="950" alt="image" src="https://github.com/user-attachments/assets/3869a6f4-d016-4043-95bd-ad338165e90c" />
+└── public/uploads/
