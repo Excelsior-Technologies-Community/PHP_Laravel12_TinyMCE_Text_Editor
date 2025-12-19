@@ -1,59 +1,231 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PHP_Laravel12_TinyMCE_Text_Editor
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A clean and beginner‑friendly **Laravel 12 + TinyMCE** based Article Management System. This project demonstrates how to integrate a rich text editor into Laravel and perform full **CRUD (Create, Read, Update, Delete)** operations with HTML content and image uploads.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This project is designed for learning and real‑world usage. It allows administrators or users to:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Create articles with rich formatted content
+* Edit existing articles using TinyMCE
+* Upload and embed images inside the editor
+* View rendered HTML content safely
+* Delete articles from the system
 
-## Learning Laravel
+It is ideal for blogs, CMS systems, admin panels, and interview demonstrations.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Features
 
-## Laravel Sponsors
+* Full Laravel CRUD operations
+* TinyMCE rich text editor integration
+* Image upload support inside editor
+* Clean and responsive Bootstrap 5 UI
+* MySQL database integration
+* Simple and readable code structure
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## Tech Stack
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+* **Backend:** Laravel 12
+* **Database:** MySQL
+* **Frontend:** Blade Templates + Bootstrap 5
+* **Editor:** TinyMCE (CDN based)
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Screenshots
 
-## Code of Conduct
+<img width="1729" height="587" alt="Article List" src="https://github.com/user-attachments/assets/2f2d3b3a-e4b1-489b-8eb9-e036420c4ab5" />
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<img width="1718" height="950" alt="TinyMCE Editor" src="https://github.com/user-attachments/assets/3869a6f4-d016-4043-95bd-ad338165e90c" />
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Installation Guide
 
-## License
+### 1. Clone the Project
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+git clone https://github.com/your-username/tiny-laravel-editor.git
+cd tiny-laravel-editor
+```
+
+### 2. Install Dependencies
+
+```bash
+composer install
+```
+
+### 3. Environment Setup
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+Update database credentials in `.env`:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tiny_editor
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 4. Run Migrations
+
+```bash
+php artisan migrate
+```
+
+---
+
+## Database Structure
+
+### `articles` Table
+
+| Column     | Type                 |
+| ---------- | -------------------- |
+| id         | bigint (primary key) |
+| title      | string               |
+| content    | text                 |
+| created_at | timestamp            |
+| updated_at | timestamp            |
+
+---
+
+## TinyMCE Integration
+
+### Add TinyMCE CDN
+
+Include this script in your Blade layout or form view:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
+```
+
+### Initialize TinyMCE
+
+```html
+<script>
+tinymce.init({
+    selector: '#content',
+    height: 400,
+    plugins: 'link image lists',
+    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+    automatic_uploads: true,
+    images_upload_url: '/upload-image',
+    images_upload_credentials: true
+});
+</script>
+```
+
+---
+
+## Image Upload Support
+
+### Route Definition
+
+Add the following route in `routes/web.php`:
+
+```php
+Route::post('/upload-image', function () {
+    if (request()->hasFile('file')) {
+        $file = request()->file('file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('uploads'), $filename);
+
+        return response()->json([
+            'location' => url('uploads/' . $filename)
+        ]);
+    }
+
+    return response()->json(['error' => 'No file uploaded'], 400);
+})->name('upload.image');
+```
+
+### Create Upload Directory
+
+```bash
+mkdir public/uploads
+```
+
+Ensure the directory is writable.
+
+---
+
+## Application Routes
+
+```php
+Route::get('/', function () {
+    return redirect()->route('articles.index');
+});
+
+Route::resource('articles', ArticleController::class);
+```
+
+---
+
+## Run the Project
+
+```bash
+php artisan serve
+```
+
+Open in browser:
+
+```
+http://localhost:8000/articles
+```
+
+---
+
+## Project Structure
+
+```
+tiny-laravel-editor/
+├── app/
+│   └── Http/Controllers/ArticleController.php
+├── database/
+│   └── migrations/
+├── resources/
+│   └── views/
+│       └── articles/
+├── routes/
+│   └── web.php
+└── public/
+    └── uploads/
+```
+
+---
+
+## Security & Best Practices
+
+* Use `@csrf` in all forms
+* Validate input before saving
+* Sanitize output when displaying content
+* Restrict image upload size and type in production
+* Store uploads outside public directory for advanced security
+
+---
+
+## Learning Purpose
+
+This project is useful for:
+
+* Laravel beginners
+* CMS or blog systems
+* Rich text editor integration examples
+* Interview demonstrations
+* Practical CRUD applications
+
+---
+
+This project is open‑source and free to use for learning and development purposes.
