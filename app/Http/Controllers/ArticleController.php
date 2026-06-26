@@ -10,10 +10,29 @@ class ArticleController extends Controller
     /**
      * Display a listing of the articles.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::latest()->get();
-        return view('articles.index', compact('articles'));
+        $query = Article::query();
+
+        // Search by title
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Statistics
+        $totalArticles = Article::count();
+        $todayArticles = Article::whereDate('created_at', today())->count();
+        $latestArticle = Article::latest()->first();
+
+        // Pagination
+        $articles = $query->oldest()->paginate(5);
+
+        return view('articles.index', compact(
+            'articles',
+            'totalArticles',
+            'todayArticles',
+            'latestArticle'
+        ));
     }
 
     /**
@@ -30,7 +49,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'   => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
@@ -45,7 +64,10 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles.show', compact('article'));
+        // Reading Time
+        $readingTime = max(1, ceil(str_word_count(strip_tags($article->content)) / 200));
+
+        return view('articles.show', compact('article', 'readingTime'));
     }
 
     /**
@@ -57,12 +79,12 @@ class ArticleController extends Controller
     }
 
     /**
-     * Update the specified article in storage.
+     * Update the specified article.
      */
     public function update(Request $request, Article $article)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
+            'title'   => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
@@ -73,7 +95,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Remove the specified article from storage.
+     * Remove the specified article.
      */
     public function destroy(Article $article)
     {
