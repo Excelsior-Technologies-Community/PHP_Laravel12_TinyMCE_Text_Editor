@@ -9,18 +9,28 @@ Route::get('/', function () {
 
 Route::resource('articles', ArticleController::class);
 
-// Optional: Image upload route for TinyMCE
-Route::post('/upload-image', function() {
-    // Simple image upload handler
+// Export Articles to CSV
+Route::get('/articles-export', [ArticleController::class, 'export'])
+    ->name('articles.export');
+
+// TinyMCE Image Upload
+Route::post('/upload-image', function () {
+
     if (request()->hasFile('file')) {
+
         $file = request()->file('file');
+
         $filename = time() . '_' . $file->getClientOriginalName();
+
         $file->move(public_path('uploads'), $filename);
-        
+
         return response()->json([
-            'location' => url('uploads/' . $filename)
+            'location' => asset('uploads/' . $filename)
         ]);
     }
-    
-    return response()->json(['error' => 'No file uploaded'], 400);
+
+    return response()->json([
+        'error' => 'No file uploaded'
+    ], 400);
+
 })->name('upload.image');
