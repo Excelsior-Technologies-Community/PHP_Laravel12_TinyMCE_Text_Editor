@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ArticleController extends Controller
 {
@@ -17,6 +18,11 @@ class ArticleController extends Controller
         // Search by title
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         // Statistics
@@ -51,9 +57,15 @@ class ArticleController extends Controller
         $request->validate([
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
+            'status' => 'required|in:draft,published',
         ]);
 
-        Article::create($request->all());
+        Article::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
+
 
         return redirect()->route('articles.index')
             ->with('success', 'Article created successfully.');
@@ -86,9 +98,15 @@ class ArticleController extends Controller
         $request->validate([
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
+            'status' => 'required|in:draft,published',
         ]);
 
-        $article->update($request->all());
+        $article->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'status' => $request->status,
+        ]);
+
 
         return redirect()->route('articles.index')
             ->with('success', 'Article updated successfully.');
@@ -103,5 +121,50 @@ class ArticleController extends Controller
 
         return redirect()->route('articles.index')
             ->with('success', 'Article deleted successfully.');
+    }
+
+    /**
+     * Export Articles CSV
+     */
+    public function export()
+    {
+        $articles = Article::all();
+
+        $fileName = 'articles_' . date('Y-m-d_H-i-s') . '.csv';
+
+        $headers = [
+            "Content-Type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Cache-Control" => "no-cache, no-store, must-revalidate",
+            "Pragma" => "no-cache",
+            "Expires" => "0"
+        ];
+
+        $callback = function () use ($articles) {
+
+            $file = fopen('php://output', 'w');
+
+            // CSV Header
+            fputcsv($file, [
+                'ID',
+                'Title',
+                'Status',
+                'Created At'
+            ]);
+
+            foreach ($articles as $article) {
+
+                fputcsv($file, [
+                    $article->id,
+                    $article->title,
+                    $article->status,
+                    $article->created_at->format('d M Y H:i')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

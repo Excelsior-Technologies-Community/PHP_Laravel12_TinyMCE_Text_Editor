@@ -11,25 +11,69 @@
         <form action="{{ route('articles.update', $article) }}" method="POST">
             @csrf
             @method('PUT')
-            
+
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control @error('title') is-invalid @enderror" 
-                       id="title" name="title" value="{{ old('title', $article->title) }}" required>
+                <input type="text" class="form-control @error('title') is-invalid @enderror"
+                    id="title" name="title" value="{{ old('title', $article->title) }}" required>
                 @error('title')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            
+
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
-                <textarea class="form-control @error('content') is-invalid @enderror" 
-                          id="content" name="content" rows="10">{{ old('content', $article->content) }}</textarea>
+
+                <textarea class="form-control @error('content') is-invalid @enderror"
+                    id="content"
+                    name="content"
+                    rows="10">{{ old('content', $article->content) }}</textarea>
+
                 @error('content')
-                    <div class="invalid-feedback">{{ $message }}</div>
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
-            
+
+
+            <div class="mb-3">
+
+                <label for="status" class="form-label">
+                    Status
+                </label>
+
+
+                <select
+                    class="form-control @error('status') is-invalid @enderror"
+                    id="status"
+                    name="status">
+
+
+                    <option value="draft"
+                        {{ old('status', $article->status) == 'draft' ? 'selected' : '' }}>
+                        Draft
+                    </option>
+
+
+                    <option value="published"
+                        {{ old('status', $article->status) == 'published' ? 'selected' : '' }}>
+                        Published
+                    </option>
+
+
+                </select>
+
+
+                @error('status')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+
+
+            </div>
+
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a href="{{ route('articles.index') }}" class="btn btn-secondary me-md-2">Cancel</a>
                 <button type="submit" class="btn btn-primary">Update Article</button>
