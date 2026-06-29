@@ -54,12 +54,33 @@
         </div>
 
         <div class="col-md-3">
+
             <div class="card border-dark shadow-sm">
+
                 <div class="card-body text-center">
-                    <h6>Total Words</h6>
-                    <strong>{{ str_word_count(strip_tags($article->content)) }}</strong>
+
+                    <h6>Status</h6>
+
+
+                    @if($article->status == 'published')
+
+                    <span class="badge bg-success fs-6">
+                        Published
+                    </span>
+
+                    @else
+
+                    <span class="badge bg-warning text-dark fs-6">
+                        Draft
+                    </span>
+
+                    @endif
+
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
@@ -86,34 +107,32 @@
 @push('styles')
 
 <style>
+    .article-content img {
+        max-width: 100%;
+        height: auto;
+    }
 
-.article-content img{
-    max-width:100%;
-    height:auto;
-}
+    .card-body img {
+        max-width: 100%;
+        height: auto;
+    }
 
-.card-body img{
-    max-width:100%;
-    height:auto;
-}
+    .card-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
 
-.card-body table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-}
+    .card-body table,
+    .card-body td,
+    .card-body th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
 
-.card-body table,
-.card-body td,
-.card-body th{
-    border:1px solid #ddd;
-    padding:8px;
-}
-
-.card{
-    border-radius:10px;
-}
-
+    .card {
+        border-radius: 10px;
+    }
 </style>
 
 @endpush
