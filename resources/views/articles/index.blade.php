@@ -10,16 +10,19 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Articles Management</h2>
         <div>
+            <a href="{{ route('media.index') }}" class="btn btn-warning me-2 fw-semibold">
+                <i class="fa-solid fa-photo-film me-1"></i> Media Gallery & Cleanup
+            </a>
+
             <a href="{{ route('articles.export') }}"
                 class="btn btn-success me-2">
                 Export CSV
             </a>
 
             <a href="{{ route('articles.create') }}"
-                class="btn btn-primary">
+                class="btn btn-primary fw-bold">
                 + Create New Article
             </a>
-
         </div>
     </div>
 
